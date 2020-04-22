@@ -29,5 +29,9 @@ def square(a: Double): Double = mult(a, a)
 // if square doesn't know which numeric type it will be acting on, then it doesn't
 // know which mult function to choose
 
+// the number of such functions can explose, if you continue, for example:
+// def squares[A, B, C](a: A, b: B, c: C) = (square(a), square(b), square(c))
+// there are 8 possible overloaded versions of this if you want to support Double and Int
+
 // this what one Standard ML does
 // and Miranda avoided this problem by having only a single numeric type
