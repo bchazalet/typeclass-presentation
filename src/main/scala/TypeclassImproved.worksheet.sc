@@ -60,8 +60,8 @@ def contains3[T: Eq](list: List[T], y: T): Boolean = list match {
   case x :: xs => x.equality(y) || contains(xs, y)
 }
 
-implicit val eqInt = EqInt  /*>  repl.Session$App$EqInt$@bff9587  */
-implicit val eqString = EqString  /*>  repl.Session$App$EqString$@6a7119db  */
+implicit val eqInt = EqInt  /*>  repl.Session$App$EqInt$@ee17ff1  */
+implicit val eqString = EqString  /*>  repl.Session$App$EqString$@76114479  */
 
 contains3(List(0, 1, 2, 3), 0)  /*>  true  */
 contains3(List(0, 1, 2, 3), 11)  /*>  false  */

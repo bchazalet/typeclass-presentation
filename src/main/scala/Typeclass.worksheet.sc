@@ -5,27 +5,21 @@
 trait Eq[T] {
 
   // not a great name because on the JVM!
-  def equals(a: T, b: T): Boolean
+  def ==(a: T, b: T): Boolean
 
 }
 
 // an instance of the type class for Int
 object EqInt extends Eq[Int] {
 
-  def equals(a: Int, b: Int): Boolean = eqInt(a, b)
-
-  // this assumes eqInt is defined somewhere...
-  private def eqInt (a: Int, b: Int): Boolean = ???
+  def ==(a: Int, b: Int): Boolean = ???
 
 }
 
 // an instance of the type class for Double
 object EqString extends Eq[String] {
 
-  def equals(a: String, b: String): Boolean = eqString(a, b)
-
-  // this assumes eqInt is defined somewhere...
-  private def eqString (a: String, b: String): Boolean = ???
+  def ==(a: String, b: String): Boolean = ???
 
 }
 
@@ -35,11 +29,11 @@ def contains[T: Eq](list: List[T], y: T): Boolean = list match {
   case Nil => false
   case x :: xs =>
     val eq = implicitly[Eq[T]] // this is one way the lack of support shows in scala
-    eq.equals(x, y) || contains(xs, y)
+    eq.==(x, y) || contains(xs, y)
 }
 
 // or, equivalently:
 // def contains2[T](list: List[T], y: T)(implicit eq: Eq[T]): Boolean = list match {
 //   case Nil => false
-//   case x :: xs => eq.equals(x, y) || contains(xs, y)
+//   case x :: xs => eq.`==`(x, y) || contains(xs, y)
 // }
