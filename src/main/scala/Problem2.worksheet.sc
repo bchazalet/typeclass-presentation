@@ -18,4 +18,8 @@ def equals(a: Double, b: Int): Boolean = a == b // cheating here
 //   case x :: xs => if(equals(x, y)) true else contains(xs, y)
 // }
 
-// instead, let's try to give equals a polymorphic type
+// instead, let's try to give equals a polymorphic type, that's what Miranda does
+def equals[T](a: T, b: T): Boolean = ??? // implemented by the language itself
+
+// the problem with this is that equality is well defined for functions (it raised
+// an error at runtime) and for abstract types (which is problematic too).
