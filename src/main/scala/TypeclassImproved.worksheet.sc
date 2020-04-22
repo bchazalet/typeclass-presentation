@@ -1,3 +1,5 @@
+// same as before, but more idiomatic in scala
+
 trait Eq[T] {
 
   // using equality instead of equals to avoid method name clashing
