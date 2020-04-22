@@ -38,4 +38,4 @@ List(1, 2, 3).equality(List(2, 3, 4))  /*>  false  */
 List(1, 2, 3).equality(List(1, 2, 3))  /*>  true  */
 
 // but this doesn't compile because Eq[Double] isn't defined
-List(1d, 2d).equality(List(1d, 2d))
+// List(1d, 2d).equality(List(1d, 2d))
