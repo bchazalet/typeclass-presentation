@@ -1,9 +1,6 @@
-// re-writting Wadler's paper's example in scala
-// in scala type classes can be encoded in the following way
-
-// the actual type class defining the set of operations
 trait Eq[T] {
 
+  // using equality instead of equals to avoid method name clashing
   def equality(a: T, b: T): Boolean
 
 }
@@ -28,6 +25,15 @@ object EqString extends Eq[String] {
 
 }
 
+// this is what we already had achived
+def contains[T: Eq](list: List[T], y: T): Boolean = list match {
+  case Nil => false
+  case x :: xs =>
+    val eq = implicitly[Eq[T]] // this is one way the lack of support shows in scala
+    eq.equals(x, y) || contains(xs, y)
+}
+
+// adding some useful syntactic sugar
 object Eq {
 
   def equality[T](a: T, b: T)(implicit eq: Eq[T]): Boolean  = eq.equals(a, b)
@@ -40,10 +46,16 @@ object Eq {
 
 }
 
+// now I don't need the akward implicitly anymore
+def contains2[T: Eq](list: List[T], y: T): Boolean = list match {
+  case Nil => false
+  case x :: xs => Eq.equality(x, y) || contains(xs, y)
+}
+
 import Eq._
 
-// now we can call .equality directly on any T that has a type class Eq defined
-def contains[T: Eq](list: List[T], y: T): Boolean = list match {
+// and now we can call .equality directly on any T that has a type class Eq defined
+def contains3[T: Eq](list: List[T], y: T): Boolean = list match {
   case Nil => false
   case x :: xs => x.equality(y) || contains(xs, y)
 }
