@@ -4,6 +4,7 @@
 // the actual type class defining the set of operations
 trait Eq[T] {
 
+  // not a great name because on the JVM!
   def equals(a: T, b: T): Boolean
 
 }
