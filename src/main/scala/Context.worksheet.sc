@@ -11,3 +11,17 @@ val myFunctionOnMyData: Mydata => Int = _ match {
 }  /*>  <function1>  */
 
 // and you certainly can't call .multiply or .equals on it
+
+// but you can do parametric polymorphism a.k.a generics
+// ML already does it and it's well understood at that point
+// so you can write the following
+def head[T](list: List[T]): Option[T] = list match {
+  case Nil => None
+  case x :: xs => Some(x)
+}
+
+// Note: polymorphic functions (as opposed to methods) are coming in scala 3!
+// val head[T]: List[T] => Option[T] = _ match {
+//   case Nil => None
+//   case x :: xs => Some(x)
+// }
