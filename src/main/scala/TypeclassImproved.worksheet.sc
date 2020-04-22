@@ -4,14 +4,14 @@
 // the actual type class defining the set of operations
 trait Eq[T] {
 
-  def equals(a: T, b: T): Boolean
+  def equality(a: T, b: T): Boolean
 
 }
 
 // an instance of the type class for Int
 object EqInt extends Eq[Int] {
 
-  def equals(a: Int, b: Int): Boolean = eqInt(a, b)
+  def equality(a: Int, b: Int): Boolean = eqInt(a, b)
 
   // this assumes eqInt is defined somewhere...
   private def eqInt (a: Int, b: Int): Boolean = ???
@@ -21,24 +21,29 @@ object EqInt extends Eq[Int] {
 // an instance of the type class for Double
 object EqString extends Eq[String] {
 
-  def equals(a: String, b: String): Boolean = eqString(a, b)
+  def equality(a: String, b: String): Boolean = eqString(a, b)
 
   // this assumes eqInt is defined somewhere...
   private def eqString (a: String, b: String): Boolean = ???
 
 }
 
-// now we can defined a generic contains function, as long as we can use equals
-// on the given type
-def contains[T: Eq](list: List[T], y: T): Boolean = list match {
-  case Nil => false
-  case x :: xs =>
-    val eq = implicitly[Eq[T]] // this is one way the lack of support shows in scala
-    eq.equals(x, y) || contains(xs, y)
+object Eq {
+
+  def equality[T](a: T, b: T)(implicit eq: Eq[T]): Boolean  = eq.equals(a, b)
+
+  implicit class EqOps[T: Eq](val a: T) { // extends AnyVal // won't work in a worksheet
+
+    def equality(b: T): Boolean = Eq.equals(b)
+
+  }
+
 }
 
-// or, equivalently:
-// def contains2[T](list: List[T], y: T)(implicit eq: Eq[T]): Boolean = list match {
-//   case Nil => false
-//   case x :: xs => eq.equals(x, y) || contains(xs, y)
-// }
+import Eq._
+
+// now we can call .equality directly on any T that has a type class Eq defined
+def contains[T: Eq](list: List[T], y: T): Boolean = list match {
+  case Nil => false
+  case x :: xs => x.equality(y) || contains(xs, y)
+}
