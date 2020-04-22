@@ -6,22 +6,16 @@ trait Eq[T] {
 }
 
 // an instance of the type class for Int
-object EqInt extends Eq[Int] {
+implicit object EqInt extends Eq[Int] {
 
-  def equality(a: Int, b: Int): Boolean = eqInt(a, b)
-
-  // this assumes eqInt is defined somewhere...
-  private def eqInt (a: Int, b: Int): Boolean = a == b
+  def equality(a: Int, b: Int): Boolean = a == b
 
 }
 
 // an instance of the type class for String
-object EqString extends Eq[String] {
+implicit object EqString extends Eq[String] {
 
-  def equality(a: String, b: String): Boolean = eqString(a, b)
-
-  // this assumes eqString is defined somewhere...
-  private def eqString (a: String, b: String): Boolean = a == b
+  def equality(a: String, b: String): Boolean = a == b
 
 }
 
@@ -38,11 +32,11 @@ object Eq {
 
   def equality[T](a: T, b: T)(implicit eq: Eq[T]): Boolean  = eq.equality(a, b)
 
-  implicit class EqOps[T: Eq](val a: T) { // extends AnyVal // won't work in a worksheet
+}
 
-    def equality(b: T): Boolean = Eq.equality(a, b)
+implicit class EqOps[T: Eq](val a: T) { // extends AnyVal { // won't work in a worksheet
 
-  }
+  def equality(b: T): Boolean = Eq.equality(a, b)
 
 }
 
@@ -59,9 +53,6 @@ def contains3[T: Eq](list: List[T], y: T): Boolean = list match {
   case Nil => false
   case x :: xs => x.equality(y) || contains(xs, y)
 }
-
-implicit val eqInt = EqInt  /*>  repl.Session$App$EqInt$@ee17ff1  */
-implicit val eqString = EqString  /*>  repl.Session$App$EqString$@76114479  */
 
 contains3(List(0, 1, 2, 3), 0)  /*>  true  */
 contains3(List(0, 1, 2, 3), 11)  /*>  false  */
