@@ -8,13 +8,13 @@ trait Eq[T] {
 // adding some useful syntactic sugar
 object Eq {
 
-  def equality[T](a: T, b: T)(implicit eq: Eq[T]): Boolean  = eq.equality(a, b)
+  def apply[T](implicit eq: Eq[T]) = eq
 
 }
 
 implicit class EqOps[T: Eq](val a: T) { // extends AnyVal // won't work in a worksheet
 
-  def equality(b: T): Boolean = Eq.equality(a, b)
+  def equality(b: T): Boolean = Eq[T].equality(a, b)
 
 }
 

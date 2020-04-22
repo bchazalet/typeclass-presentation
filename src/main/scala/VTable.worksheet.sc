@@ -6,7 +6,7 @@ def negInt(a: Int) = ???
 // just to make square closer to the haskell version
 object Num {
 
-  def mult[T: Num](a: T, b: T) = implicitly[Num[T]].mult(a, b)
+  def apply[T](implicit num: Num[T]) = num
 
 }
 
@@ -17,7 +17,7 @@ trait Num[T] {
   def negate(a: T): T
 }
 
-def square[T: Num](x: T): T = Num.mult(x, x)
+def square[T: Num](x: T): T = Num[T].mult(x, x)
 
 implicit object NumInt extends Num[Int] {
   def add(a: Int, b: Int): Int = plusInt(a, b)
