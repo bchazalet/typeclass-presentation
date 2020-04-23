@@ -17,6 +17,10 @@ trait Num[T] {
   def negate(a: T): T
 }
 
+
+
+
+
 def square[T: Num](x: T): T = Num[T].mult(x, x)
 
 implicit object NumInt extends Num[Int] {
